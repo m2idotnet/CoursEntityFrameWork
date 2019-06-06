@@ -13,6 +13,7 @@
         </Menu>
         <Grid x:Name="maGrille">
             
+
         </Grid>
     </DockPanel>
 </Window>

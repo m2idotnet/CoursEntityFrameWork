@@ -23,5 +23,10 @@ namespace AgendaWpf.Models
 
         [ForeignKey("ContactId")]
         public Contact contact { get; set; }
+
+        public override string ToString()
+        {
+            return Email;
+        }
     }
 }

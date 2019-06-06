@@ -28,7 +28,42 @@ namespace AgendaWpf.ViewModels
 
         public void ListeContact()
         {
-
+            Reset();
+            GenerateRowsAndColumns(maGrille, 3, 1);
+            maGrille.DataContext = new ListeContactsViewModel();
+            ListView listView = new ListView();
+            listView.SetBinding(ListView.ItemsSourceProperty, new Binding("contacts"));
+            GridView g = new GridView();
+            g.Columns.Add(new GridViewColumn
+            {
+                Header = "Nom",
+                DisplayMemberBinding = new Binding("Nom"),
+                Width = 200
+            });
+            g.Columns.Add(new GridViewColumn
+            {
+                Header = "Prénom",
+                DisplayMemberBinding = new Binding("Prenom"),
+                Width = 200
+            });
+            g.Columns.Add(new GridViewColumn
+            {
+                Header = "Téléphone",
+                DisplayMemberBinding = new Binding("Tel"),
+                Width = 200
+            });
+            GridViewColumn columnEmail = new GridViewColumn();
+            columnEmail.Header = "Email";
+            DataTemplate templateEmail = new DataTemplate();
+            var listEmail = new FrameworkElementFactory(typeof(ComboBox));
+            listEmail.SetBinding(ComboBox.ItemsSourceProperty, new Binding("emails"));
+            templateEmail.VisualTree = listEmail;
+            columnEmail.CellTemplate = templateEmail;
+            g.Columns.Add(columnEmail);
+            listView.View = g;
+            maGrille.Children.Add(listView);
+            Grid.SetColumn(listView, 0);
+            Grid.SetRow(listView, 0);
         }
 
         public void AddContact()
