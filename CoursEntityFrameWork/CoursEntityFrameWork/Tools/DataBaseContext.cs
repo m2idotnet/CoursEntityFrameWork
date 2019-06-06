@@ -18,6 +18,6 @@ namespace CoursEntityFrameWork.Tools
         }
 
         public DbSet<Client> Clients { get; set; }
-
+        public DbSet<Adresse> Adresses { get; set; }
     }
 }

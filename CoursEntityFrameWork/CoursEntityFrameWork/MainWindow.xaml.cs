@@ -27,7 +27,10 @@ namespace CoursEntityFrameWork
             InitializeComponent();
             DataBaseContext data = new DataBaseContext();
             //Insertion Dans dataContext
-            //data.Clients.Add(new Client { Nom = "abadi", Prenom = "Ihab" });
+            //Client c = new Client { Nom = "abadi", Prenom = "Ihab" };
+            //c.monAdresse = new Adresse { Rue = "tourcoing", Ville = "tourcoing" };
+            //data.Clients.Add(c);
+
             //data.SaveChanges();
             //Select dans DataContext
             //select by primary Key
@@ -42,8 +45,51 @@ namespace CoursEntityFrameWork
             //c.Prenom = "tata";
             //data.SaveChanges();
             //Remove DataContext
-            Client c = data.Clients.Find(2);
-            data.Clients.Remove(c);
+            //Client c = data.Clients.Find(2);
+            //data.Clients.Remove(c);
+            //data.SaveChanges();
+
+            //SElect with foreignKey
+            //Client c = data.Clients.Find(1);
+            //c.monAdresse = data.Adresses.Find(c.AdresseId);
+
+            //Insertion One To Many
+            //Client c = new Client { Nom = "abadi", Prenom = "Ihab" };
+            //List<Adresse> listeAdresses = new List<Adresse>()
+            //{
+            //    new Adresse
+            //    {
+            //        Rue  = "t",
+            //        Ville = "T",
+            //    },
+            //    new Adresse
+            //    {
+            //        Rue  = "r",
+            //        Ville = "R",
+            //    },
+            //};
+            //c.Adresses = listeAdresses;
+            //data.Clients.Add(c);
+            //data.SaveChanges();
+
+            //Many to many
+
+            Client c = new Client { Nom = "abadi", Prenom = "Ihab" };
+            List<Adresse> listeAdresses = new List<Adresse>()
+            {
+                new Adresse
+                {
+                    Rue  = "t",
+                    Ville = "T",
+                },
+                new Adresse
+                {
+                    Rue  = "r",
+                    Ville = "R",
+                },
+            };
+            c.Adresses = listeAdresses;
+            data.Clients.Add(c);
             data.SaveChanges();
         }
     }
