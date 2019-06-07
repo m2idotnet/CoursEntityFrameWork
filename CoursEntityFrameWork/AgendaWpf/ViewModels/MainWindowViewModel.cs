@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using AgendaWpf.Models;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -54,9 +55,10 @@ namespace AgendaWpf.ViewModels
             });
             GridViewColumn columnEmail = new GridViewColumn();
             columnEmail.Header = "Email";
+            columnEmail.Width = 200;
             DataTemplate templateEmail = new DataTemplate();
-            var listEmail = new FrameworkElementFactory(typeof(ComboBox));
-            listEmail.SetBinding(ComboBox.ItemsSourceProperty, new Binding("emails"));
+            var listEmail = new FrameworkElementFactory(typeof(ListView));
+            listEmail.SetBinding(ListView.ItemsSourceProperty, new Binding("emails") { Converter = new PlaceholderConverter()});
             templateEmail.VisualTree = listEmail;
             columnEmail.CellTemplate = templateEmail;
             g.Columns.Add(columnEmail);
@@ -72,7 +74,7 @@ namespace AgendaWpf.ViewModels
             GenerateRowsAndColumns(maGrille, 6, 2);
             maGrille.DataContext = new AddContactViewModel();
             string[] mesLabels = new string[] { "Nom", "Prénom", "Tel", "Emails" };
-            for(int i=0; i < mesLabels.Length; i++)
+            for (int i = 0; i < mesLabels.Length; i++)
             {
                 Label l = new Label()
                 {
@@ -83,7 +85,7 @@ namespace AgendaWpf.ViewModels
                 Grid.SetRow(l, i);
             }
             string[] mesTextBox = new string[] { "Nom", "Prenom", "Tel" };
-            for(int i = 0; i < mesTextBox.Length; i++)
+            for (int i = 0; i < mesTextBox.Length; i++)
             {
                 TextBox t = new TextBox();
                 t.SetBinding(TextBox.TextProperty, new Binding(mesTextBox[i]));
@@ -93,7 +95,7 @@ namespace AgendaWpf.ViewModels
             }
             DataGrid dGrid = new DataGrid();
             dGrid.AutoGenerateColumns = false;
-            dGrid.Columns.Add(new DataGridTextColumn 
+            dGrid.Columns.Add(new DataGridTextColumn
             {
                 Header = "Email",
                 Binding = new Binding("Email"),
@@ -107,7 +109,7 @@ namespace AgendaWpf.ViewModels
             Button bAdd = new Button()
             {
                 Content = "Ajouter",
-                
+
             };
             bAdd.SetBinding(Button.CommandProperty, new Binding("addCommand"));
             Grid.SetColumn(bAdd, 0);
@@ -125,7 +127,7 @@ namespace AgendaWpf.ViewModels
 
         private void GenerateRowsAndColumns(Grid g, int row, int col)
         {
-            for(int i= 1; i <= row; i++)
+            for (int i = 1; i <= row; i++)
             {
                 g.RowDefinitions.Add(new RowDefinition
                 {
@@ -139,6 +141,28 @@ namespace AgendaWpf.ViewModels
                     Width = new GridLength(i, GridUnitType.Star)
                 });
             }
+        }
+
+    }
+    public class PlaceholderConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+
+            if (value != null)
+            {
+                AddressEmail[] tab = new AddressEmail[(value as ICollection<AddressEmail>).Count];
+                (value as ICollection<AddressEmail>).ToList().CopyTo(tab);
+                if(tab[tab.Length-1].Email == "{NewItemPlaceholder}")
+                    return DependencyProperty.UnsetValue;
+            }
+                
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }
