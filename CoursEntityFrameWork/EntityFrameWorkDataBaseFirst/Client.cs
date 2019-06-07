@@ -14,9 +14,18 @@ namespace EntityFrameWorkDataBaseFirst
     
     public partial class Client
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Client()
+        {
+            this.Booking = new HashSet<Booking>();
+        }
+    
         public int Id { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Tel { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Booking> Booking { get; set; }
     }
 }

@@ -21,5 +21,7 @@ namespace EntityFrameWorkDataBaseFirst
         public int OccupatedNumber { get; set; }
         public int status { get; set; }
         public int invoiceStatus { get; set; }
+    
+        public virtual Client Client { get; set; }
     }
 }

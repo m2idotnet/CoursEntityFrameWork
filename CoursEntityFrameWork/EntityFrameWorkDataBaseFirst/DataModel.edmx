@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Booking">
           <Key>
             <PropertyRef Name="Id" />
@@ -35,13 +35,28 @@
           <Property Name="Solde" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="ClientId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="bookingClient">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Compte" EntityType="Self.Compte" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="bookingClient" Association="Self.bookingClient">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -56,6 +71,7 @@
           <Property Name="OccupatedNumber" Type="Int32" Nullable="false" />
           <Property Name="status" Type="Int32" Nullable="false" />
           <Property Name="invoiceStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Model.bookingClient" FromRole="Booking" ToRole="Client" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -65,6 +81,7 @@
           <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Tel" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Booking" Relationship="Model.bookingClient" FromRole="Client" ToRole="Booking" />
         </EntityType>
         <EntityType Name="Compte">
           <Key>
@@ -79,7 +96,23 @@
           <EntitySet Name="Booking" EntityType="Self.Booking" />
           <EntitySet Name="Client" EntityType="Self.Client" />
           <EntitySet Name="Compte" EntityType="Self.Compte" />
+          <AssociationSet Name="bookingClient" Association="Model.bookingClient">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="bookingClient">
+          <End Type="Model.Client" Role="Client" Multiplicity="1" />
+          <End Type="Model.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

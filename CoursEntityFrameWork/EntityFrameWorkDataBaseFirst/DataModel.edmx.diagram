@@ -6,8 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="2f4b44b8f5004dfcba3ec3c6258b52f4" Name="Diagram1">
         <EntityTypeShape EntityType="Model.Booking" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Client" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Compte" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Client" Width="1.5" PointX="5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Compte" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="Model.bookingClient" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
